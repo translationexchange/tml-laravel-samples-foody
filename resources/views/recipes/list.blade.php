@@ -3,7 +3,7 @@
 
     <div class="page-header">
         <h3>
-            <a href="">{!! tr($category->name) !!}</a>
+            {!! tr($category->name) !!}
         </h3>
     </div>
 
