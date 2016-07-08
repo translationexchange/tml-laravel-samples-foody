@@ -17,7 +17,7 @@
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-          <?php tml_language_selector_tag("sideflags") ?>
+          {!! tml_language_selector_tag("sideflags") !!}
         </li>
       </ul>
 
