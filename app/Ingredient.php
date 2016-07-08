@@ -18,7 +18,7 @@ class Ingredient extends Model
      *
      * @var array
      */
-    protected $fillable = ['quantity', 'name', 'measurement', 'index', 'description', 'recipe_id'];
+    protected $fillable = ['quantity', 'name', 'measurements', 'index', 'description', 'recipe_id'];
 
     public function recipe()
     {

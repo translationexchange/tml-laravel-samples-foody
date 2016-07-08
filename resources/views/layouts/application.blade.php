@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" {!! tml_html_attributes() !!}>
 <head>
     <meta http-equiv="content-type" content="application/xhtml+xml; charset=UTF-8"/>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
@@ -7,8 +7,9 @@
 
     <title>Foody (Laravel)</title>
 
-    <link rel="stylesheet" href="{{ asset('stylesheets/bootstrap.ltr.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('stylesheets/application.ltr.css') }}">
+    {!! tml_stylesheet_link_tag(asset('stylesheets/bootstrap.ltr.min.css'), asset('stylesheets/bootstrap.rtl.min.css')) !!}
+    {!! tml_stylesheet_link_tag(asset('stylesheets/application.ltr.css'), asset('stylesheets/application.rtl.css')) !!}
+
     <script type="text/javascript" src="{{ asset('javascripts/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('javascripts/bootstrap.min.js') }}"></script>
 

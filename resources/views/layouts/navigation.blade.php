@@ -22,7 +22,7 @@
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href=''>{!! tr('Add Recipe') !!}</a></li>
+        <li><a href='/recipes/new'>{!! tr('Add Recipe') !!}</a></li>
       </ul>
     </div>
   </div>

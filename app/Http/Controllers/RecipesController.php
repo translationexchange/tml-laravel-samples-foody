@@ -23,14 +23,34 @@ class RecipesController extends Controller
         return view('recipes.show', ['recipe' => Recipe::findByKey($key)]);
     }
 
-    public function edit($id)
-    {
-        return view('recipes.edit', ['recipe' => Recipe::findOrFail($id), 'categories' => Category::all()]);
+    public function create() {
+        $recipe = new Recipe();
+        return view('recipes.edit', [
+            'recipe' => $recipe,
+            'categories' => Category::all(),
+            'directions' => [new \App\Direction(), new \App\Direction()],
+            'ingredients' => [new \App\Ingredient(), new \App\Ingredient(), new \App\Ingredient()],
+        ]);
     }
 
-    public function update(Request $request, $id)
+    public function edit($id)
     {
         $recipe = Recipe::findOrFail($id);
+        return view('recipes.edit', [
+            'recipe' => $recipe,
+            'categories' => Category::all(),
+            'directions' => $recipe->directions,
+            'ingredients' => $recipe->ingredients
+        ]);
+    }
+
+    public function update(Request $request, $id = null)
+    {
+        if ($id)
+            $recipe = Recipe::findOrFail($id);
+        else
+            $recipe = new Recipe();
+
         $recipe->name = $request->input('recipe.name');
         $recipe->description = $request->input('recipe.description');
         $recipe->preparation = $request->input('recipe.preparation');
@@ -50,7 +70,5 @@ class RecipesController extends Controller
         Recipe::destroy($id);
         return redirect()->action('RecipesController@index');
     }
-
-
 
 }

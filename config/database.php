@@ -48,7 +48,8 @@ return [
 
         'sqlite' => [
             'driver'   => 'sqlite',
-            'database' => '/Users/Berk/Projects/Tml/tml-rails-samples-foody/db/foody.sqlite3', // storage_path('database.sqlite'),
+//            'database' => '/Users/Berk/Projects/Tml/tml-rails-samples-foody/db/foody.sqlite3', // storage_path('database.sqlite'),
+            'database' => storage_path('database.sqlite'),
             'prefix'   => '',
         ],
 

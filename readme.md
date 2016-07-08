@@ -18,6 +18,9 @@ To install the app, use:
 $ git clone https://github.com/translationexchange/tml-laravel-samples-foody.git
 $ cd tml-laravel-samples-foody
 $ composer install
+$ touch storage/database.sqlite
+$ php artisan migrate
+$ php artisan db:seed
 $ php artisan serve
 ```
 
@@ -30,7 +33,7 @@ To be able to translate any elements in the application, you must be a registere
 
 Once you register as a new user, add a new application and copy the token to the configuration file.
 
-Open "app/Http/Middleware/Tml.php" and change the following lines:
+Open "app/Http/Middleware/Tml.php" and change the following line:
 
 ```php
 tml_init([

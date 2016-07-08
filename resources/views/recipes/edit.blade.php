@@ -6,41 +6,45 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                    <form action="/recipes/{{ $recipe->id }}" method="post">
+                    <form action="/recipes{{ $recipe->id == null ? '' : '/' . $recipe->id }}" method="post">
                         <div class="row">
                             <div class="col-lg-6 col-sm-7">
 
                                 <div class="recipe">
                                     <h2>
-                                        Update Recipe
+                                        @if ($recipe->id == null)
+                                            {!! tr("New Recipe") !!}
+                                        @else
+                                            {!! tr("Update Recipe") !!}
+                                        @endif
                                     </h2>
 
                                     <div>
                                         <input type="text" name="recipe[name]" value="{{$recipe->name}}"
-                                               placeholder="Recipe Name" class="form-control">
+                                               placeholder="{{ trl("Recipe Name") }}" class="form-control">
                                     </div>
 
                                     <div style="padding: 10px 0;">
-                                        <textarea name="recipe[description]" placeholder="Description"
+                                        <textarea name="recipe[description]" placeholder="{{ trl("Description") }}"
                                                   class="form-control">{{$recipe->description}}</textarea>
                                     </div>
 
                                     <div style="padding-bottom: 10px;">
                                         <input type="text" name="recipe[image]" value="{{$recipe->image}}"
-                                               placeholder="Image Url" class="form-control">
+                                               placeholder="{{ trl("Image Url") }}" class="form-control">
                                     </div>
 
                                     <h5>
-                                        Category
+                                        {!! tr("Category") !!}
                                     </h5>
 
                                     <div style="padding-bottom: 10px">
                                         <select name="recipe[category_id]" onChange="verifyCategory(this)"
                                                 class="form-control">
-                                            <option value="">New Category</option>
+                                            <option value="">{!! tr("New Category") !!}</option>
                                             @foreach($categories as $category)
                                                 <option value="{{$category->id}}" {{ $recipe->category_id == $category->id ? 'selected' : '' }}>
-                                                    {{$category->name}}
+                                                    {{trl($category->name)}}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -53,24 +57,24 @@
                                     </div>
 
                                     <h5>
-                                        Preparation
+                                        {!! tr("Preparation") !!}
                                     </h5>
 
                                     <p>
                                         <textarea name="recipe[preparation]"
-                                                  placeholder="Preparation instructions"
+                                                  placeholder="{{ trl("Preparation instructions") }}"
                                                   class="form-control"
                                                   style="height: 80px;">{{$recipe->preparation}}</textarea>
                                     </p>
                                     <hr>
                                     <h5>
-                                        Directions
+                                        {!! tr("Directions") !!}
                                     </h5>
-                                    <table class="table recipe-table">
-                                        @foreach($recipe->directions as $direction)
+                                    <table id="directions" class="table recipe-table">
+                                        @foreach($directions as $index => $direction)
                                             <tr>
                                                 <td>
-                                                    <textarea name="recipe[directions][][description]"
+                                                    <textarea name="recipe[directions][{{$index}}][description]"
                                                               placeholder="Directions"
                                                               class="form-control"
                                                               style="height: 120px;">{{$direction->description}}</textarea>
@@ -97,19 +101,27 @@
                                     @endif
                                     <div class="panel-body">
                                         <h5>
-                                            Ingredient List
+                                            {!! tr("Ingredient List") !!}
                                         </h5>
-                                        <table class="table recipe-table">
+                                        <table id="ingredients" class="table recipe-table">
                                             <tbody>
-                                            @foreach($recipe->ingredients as $ingredient)
+                                            @foreach($ingredients as $index => $ingredient)
                                                 <tr>
-                                                    <td>
-                                                        <input type="text" name="recipe[ingredients][][quantity]" value="{{$ingredient->quantity}}"
-                                                               placeholder="Amount" class="form-control" style="width: 60px; display: inline-block">
-                                                        <input type="text" name="recipe[ingredients][][measurements]" value="{{$ingredient->measurements}}"
-                                                               placeholder="Measurements" class="form-control" style="width: 70px; display: inline-block">
-                                                        <input type="text" name="recipe[ingredients][][name]" value="{{$ingredient->name}}"
-                                                               placeholder="Name" class="form-control" style="width: 120px; display: inline-block">
+                                                    <td class="fields">
+                                                        <input type="text"
+                                                               name="recipe[ingredients][{{$index}}][quantity]"
+                                                               value="{{$ingredient->quantity}}"
+                                                               placeholder="{{ trl("Amount") }}" class="form-control"
+                                                               style="width: 60px; display: inline-block">
+                                                        <input type="text"
+                                                               name="recipe[ingredients][{{$index}}][measurements]"
+                                                               value="{{$ingredient->measurements}}"
+                                                               placeholder="{{ trl("Measurements") }}" class="form-control"
+                                                               style="width: 70px; display: inline-block">
+                                                        <input type="text" name="recipe[ingredients][{{$index}}][name]"
+                                                               value="{{$ingredient->name}}"
+                                                               placeholder="{{ trl("Name") }}" class="form-control"
+                                                               style="width: 120px; display: inline-block">
                                                     </td>
                                                     <td>
                                                         <a class="btn btn-default" href="#"
@@ -129,8 +141,9 @@
                         </div>
                         <div class="row text-center" style="padding-top:50px">
                             <button class="btn btn-default btn-primary btn-lg"
-                                    type="submit">Submit</button>
-                            <a href="/recipes/{{ $recipe->key }}" class="btn btn-default btn-lg">Cancel</a>
+                                    type="submit">{!! tr("Submit") !!}
+                            </button>
+                            <a href="/recipes/{{ $recipe->key }}" class="btn btn-default btn-lg">{!! tr("Cancel") !!}</a>
                         </div>
                     </form>
                 </div>
@@ -163,12 +176,32 @@
             var newRow = row.cloneNode(true);
             resetValues(newRow);
             table.insertBefore(newRow, row.nextSibling);
+            updateDirectionsIndex();
+            updateIngreditentsIndex();
         }
 
         function removeElement(element) {
             var row = element.parentElement.parentElement;
             var table = row.parentElement;
             table.removeChild(row);
+            updateDirectionsIndex();
+            updateIngreditentsIndex();
         }
+
+        function updateDirectionsIndex() {
+            $("#directions textarea").each(function (index, node) {
+                node.name = "recipe[directions][" + index + "][description]";
+            });
+        }
+
+        function updateIngreditentsIndex() {
+            $("#ingredients .fields").each(function (index, node) {
+                node.children[0].name = "recipe[ingredients][" + index + "][quantity]";
+                node.children[1].name = "recipe[ingredients][" + index + "][measurements]";
+                node.children[2].name = "recipe[ingredients][" + index + "][name]";
+            });
+        }
+
     </script>
+
 @endsection

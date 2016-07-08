@@ -12,6 +12,8 @@
 */
 
 Route::get('/', 'RecipesController@index');
+Route::get('/recipes/new', 'RecipesController@create');
+Route::post('/recipes', 'RecipesController@update');
 Route::get('/recipes/{key}', 'RecipesController@show');
 Route::get('/recipes/{id}/delete', 'RecipesController@delete');
 Route::get('/recipes/{id}/edit', 'RecipesController@edit');

@@ -8,35 +8,35 @@
                 <div class="col-md-10 col-md-offset-1">
                     <div class="row">
                         <div class="col-lg-6 col-sm-7">
-                            <a href="/" class="back-btn">Back</a>
+                            <a href="/" class="back-btn">{!! tr("Back") !!}</a>
 
                             <div class="recipe">
                                 <h2>
-                                    {{ $recipe->name }}
+                                    {!! tr($recipe->name) !!}
                                 </h2>
 
                                 <p>
-                                    {{ $recipe->description }}
+                                    {!! tr($recipe->description) !!}
                                 </p>
 
                                 <hr>
 
                                 <h5>
-                                    Preparation
+                                    {!! tr("Preparation") !!}
                                 </h5>
 
                                 <p>
-                                    {{ $recipe->preparation }}
+                                    {!! tr($recipe->preparation) !!}
                                 </p>
                                 <hr>
                                 <h5>
-                                    Directions
+                                    {!! tr("Directions") !!}
                                 </h5>
                                 <ol>
                                     @foreach($recipe->directions as $direction)
                                         <li>
                                             <p>
-                                                {{ $direction->description }}
+                                                {!! tr($direction->description) !!}
                                             </p>
                                         </li>
                                     @endforeach
@@ -49,7 +49,7 @@
 
                                 <div class="panel-body">
                                     <h5>
-                                        Ingredient List
+                                        {!! tr("Ingredient List") !!}
                                     </h5>
                                     <table class="table recipe-table">
                                         <tbody>
@@ -57,10 +57,13 @@
                                             <tr>
                                                 <td>
                                                     @if ($ingredient->measurements == '')
-                                                        <strong>{{ $ingredient->quantity }}</strong> {{ $ingredient->name }}
+                                                        {!! tr('[bold: {count}] {count | ' . $ingredient->name . '}', [
+                                                                'count' => $ingredient->quantity
+                                                            ]) !!}
                                                     @else
-                                                        <strong>{{ $ingredient->quantity }} {{ $ingredient->measurements }}</strong>
-                                                        of {{ $ingredient->name }}
+                                                        {!! tr('[bold: {count || ' . $ingredient->measurements . '}] of ' . $ingredient->name, [
+                                                                'count' => $ingredient->quantity
+                                                            ]) !!}
                                                     @endif
                                                 </td>
                                             </tr>
@@ -72,10 +75,10 @@
 
                             <div class="row text-right" style="padding:0px 15px;">
                                 <a href="/recipes/{{ $recipe->id }}/edit" class="btn btn-default btn-sm">
-                                    Update Recipe
+                                    {!! tr("Update Recipe") !!}
                                 </a>
                                 <a href="#" onclick="deleteRecipe(); return false;" class="btn btn-default btn-sm">
-                                    Delete
+                                    {!! tr("Delete") !!}
                                 </a>
                             </div>
                         </div>
@@ -87,7 +90,7 @@
 
     <script>
         function deleteRecipe() {
-            if (!confirm("Are you sure you want to delete this recipe?")) return;
+            if (!confirm("{{ trl("Are you sure you want to delete this recipe?") }}")) return;
             location = '/recipes/{{ $recipe->id }}/delete';
         }
     </script>

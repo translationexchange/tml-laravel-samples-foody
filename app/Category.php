@@ -25,6 +25,19 @@ class Category extends Model
         return $categories;
     }
 
+    public static function findByKey($key) {
+        return Category::where('key', $key)->first();
+    }
+
+    public static function findOrCreate($key) {
+        $cat = Category::findByKey($key);
+        return $cat == null ? Category::create(['key' => $key]) : $cat;
+    }
+
+    public static function deleteAll() {
+        Category::all()->delete();
+    }
+
     public function recipes()
     {
         return $this->hasMany('App\Recipe');

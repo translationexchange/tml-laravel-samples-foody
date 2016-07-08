@@ -23,9 +23,12 @@ class Tml {
 //        ]);
 
         tml_init([
-            "key" => "6ca6506b997de3599460c61960951014fa87daa7e60537c60dd444d487a83174",
+            "key" => "9fbe39b689f222be9de4222d549403bdd1e7308827cd8404d6ccbfae041d1312",
             "host" => "http://localhost:3000",
             "cdn_host" => "https://trex-snapshots-dev.s3-us-west-1.amazonaws.com",
+            "source" => [
+                "/recipes\\/[\\d]+\\/edit/" => "/recipes/edit"
+            ],
             "agent" => [
                 "host" => "http://localhost:8282/dist/agent.js"
             ],

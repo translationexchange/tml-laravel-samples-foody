@@ -24,6 +24,11 @@ class Recipe extends Model
         return Recipe::where('key', $key)->first();
     }
 
+    public static function findOrCreate($key) {
+        $rec = Recipe::findByKey($key);
+        return $rec == null ? Recipe::create(['key' => $key]) : $rec;
+    }
+
     public function category()
     {
         return $this->belongsTo('App\Category');
@@ -62,18 +67,24 @@ class Recipe extends Model
 
     public function updateDirections($request)
     {
-//        var_dump($request->input('recipe.directions'));
+        $this->directions()->delete();
 
-//        if ($request->input('recipe.directions')) {
-//
-//        }
+        $directions = $request->input('recipe.directions');
+        foreach($directions as $key => $direction) {
+            Direction::create(array_merge($direction, ['recipe_id' => $this->id]));
+        }
     }
 
     public function updateIngredients($request)
     {
-//        if ($request->input('recipe.ingredients')) {
-//
-//        }
+        $this->ingredients()->delete();
+
+//        echo json_encode($request->input('recipe.ingredients'));
+
+        $ingredients = $request->input('recipe.ingredients');
+        foreach($ingredients as $ingredient) {
+            Ingredient::create(array_merge($ingredient, ['recipe_id' => $this->id]));
+        }
     }
 
 }

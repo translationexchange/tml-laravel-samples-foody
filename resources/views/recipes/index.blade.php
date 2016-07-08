@@ -27,8 +27,7 @@
                     @foreach ($categories as $category)
                         <li>
                             <a href="#{{ $category->key }}">
-                                {{--{!! tr($category->name) !!}--}}
-                                {{ $category["name"] }}
+                                {!! tr($category->name) !!}
                             </a>
                         </li>
                     @endforeach

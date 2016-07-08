@@ -3,7 +3,7 @@
 
     <div class="page-header">
         <h3>
-            <a href="">{{$category->name}}</a>
+            <a href="">{!! tr($category->name) !!}</a>
         </h3>
     </div>
 
@@ -17,11 +17,11 @@
 
                             <div class="panel-body">
                                 <h4>
-                                    {{ $recipe->name }}
+                                    {!! tr($recipe->name) !!}
                                 </h4>
 
                                 <p>
-                                    {{ $recipe->description }}
+                                    {!! tr($recipe->description) !!}
                                 </p>
                             </div>
                         </a>
