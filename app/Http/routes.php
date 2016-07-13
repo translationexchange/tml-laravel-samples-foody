@@ -19,6 +19,7 @@ Route::get('/recipes/{id}/delete', 'RecipesController@delete');
 Route::get('/recipes/{id}/edit', 'RecipesController@edit');
 Route::post('/recipes/{id}', 'RecipesController@update');
 
+Route::get('/samples', 'SamplesController@index');
 
 Event::listen('illuminate.query', function($query, $bindings, $time, $name)
 {
