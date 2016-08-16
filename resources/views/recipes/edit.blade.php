@@ -6,7 +6,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 col-md-offset-1">
-                    <form action="/recipes{{ $recipe->id == null ? '' : '/' . $recipe->id }}" method="post">
+                    <form action="/{{$locale}}/recipes{{ $recipe->id == null ? '' : '/' . $recipe->id }}" method="post">
                         <div class="row">
                             <div class="col-lg-6 col-sm-7">
 
@@ -143,7 +143,11 @@
                             <button class="btn btn-default btn-primary btn-lg"
                                     type="submit">{!! tr("Submit") !!}
                             </button>
-                            <a href="/recipes/{{ $recipe->key }}" class="btn btn-default btn-lg">{!! tr("Cancel") !!}</a>
+                            @if ($recipe->id == null)
+                                <a href="/{{ $locale }}" class="btn btn-default btn-lg">{!! tr("Cancel") !!}</a>
+                            @else
+                                <a href="/{{ $locale }}/recipes/{{ $recipe->key }}" class="btn btn-default btn-lg">{!! tr("Cancel") !!}</a>
+                            @endif
                         </div>
                     </form>
                 </div>

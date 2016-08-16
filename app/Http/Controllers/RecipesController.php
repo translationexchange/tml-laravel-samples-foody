@@ -9,23 +9,28 @@ use Tml\Cache;
 
 class RecipesController extends Controller
 {
-    public function index()
+    public function index($locale = null)
     {
         $categories = Category::featured();
 
         return view('recipes.index', [
+            "locale" => $locale,
             "categories" => $categories
         ]);
     }
 
-    public function show($key)
+    public function show($locale, $key)
     {
-        return view('recipes.show', ['recipe' => Recipe::findByKey($key)]);
+        return view('recipes.show', [
+            'locale' => $locale,
+            'recipe' => Recipe::findByKey($key)
+        ]);
     }
 
-    public function create() {
+    public function create($locale) {
         $recipe = new Recipe();
         return view('recipes.edit', [
+            'locale' => $locale,
             'recipe' => $recipe,
             'categories' => Category::all(),
             'directions' => [new \App\Direction(), new \App\Direction()],
@@ -33,10 +38,11 @@ class RecipesController extends Controller
         ]);
     }
 
-    public function edit($id)
+    public function edit($locale = null, $id)
     {
         $recipe = Recipe::findOrFail($id);
         return view('recipes.edit', [
+            'locale' => $locale,
             'recipe' => $recipe,
             'categories' => Category::all(),
             'directions' => $recipe->directions,
@@ -44,7 +50,7 @@ class RecipesController extends Controller
         ]);
     }
 
-    public function update(Request $request, $id = null)
+    public function update(Request $request, $locale = null, $id = null)
     {
         if ($id)
             $recipe = Recipe::findOrFail($id);
@@ -62,13 +68,13 @@ class RecipesController extends Controller
         $recipe->updateDirections($request);
         $recipe->updateIngredients($request);
 
-        return redirect()->action('RecipesController@show', ['id' => $recipe->key]);
+        return redirect()->action('RecipesController@show', ['id' => $recipe->key, 'locale' => $locale]);
     }
 
-    public function delete($id)
+    public function delete($locale, $id)
     {
         Recipe::destroy($id);
-        return redirect()->action('RecipesController@index');
+        return redirect()->action('RecipesController@index', ['locale' => $locale]);
     }
 
 }

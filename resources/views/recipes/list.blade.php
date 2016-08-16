@@ -12,7 +12,7 @@
             <div class="row">
                 @foreach ($category->recipes as $recipe)
                     <div class="col-lg-4 col-md-6">
-                        <a href="/recipes/{{ $recipe->key }}" class="panel panel-default recipe-thumbnail">
+                        <a href="/{{ $locale }}/recipes/{{ $recipe->key }}" class="panel panel-default recipe-thumbnail">
                             <img src="{{ asset('images/recipes/' . $recipe->image) }}" class="img-responsive">
 
                             <div class="panel-body">

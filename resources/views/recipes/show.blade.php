@@ -8,7 +8,7 @@
                 <div class="col-md-10 col-md-offset-1">
                     <div class="row">
                         <div class="col-lg-6 col-sm-7">
-                            <a href="/" class="back-btn">{!! tr("Back") !!}</a>
+                            <a href="/{{$locale}}" class="back-btn">{!! tr("Back") !!}</a>
 
                             <div class="recipe">
                                 <h2>
@@ -91,7 +91,7 @@
     <script>
         function deleteRecipe() {
             if (!confirm("{{ trl("Are you sure you want to delete this recipe?") }}")) return;
-            location = '/recipes/{{ $recipe->id }}/delete';
+            location = '/{{ $locale }}/recipes/{{ $recipe->id }}/delete';
         }
     </script>
 
